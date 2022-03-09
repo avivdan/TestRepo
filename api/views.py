@@ -23,19 +23,27 @@ database=firebase.database()
 
 @api_view(['POST'])
 def AlgoResponseView(request):
-    if not isinstance(request.data, dict) or not isvalidinput(request.data) or not isinstance(request.data['date'],str):
+    try:
+        if not isinstance(request.data, dict) or not isvalidinput(request.data) or not isinstance(request.data['date'],str):
+            return Response(-1)
+        database.child(request.data['date'].replace('.','/')).set(str(request.data['preferences']))
+        prefs = request.data['preferences']
+        div = Division(number_of_items=request.data['items'])
+        div.add_parties([(i, request.data['mandates'][i]) for i in range(len(prefs))])
+        for i in range(len(prefs)):
+            div.set_party_preferences(i, prefs[i])
+        return Response(str(transpose(bundle_to_matrix(div.divide()))).replace("[","{").replace("]","}"))
+    except:
         return Response(-1)
-    database.child(request.data['date'].replace('.','/')).set(str(request.data['preferences']))
-    prefs = request.data['preferences']
-    div = Division(number_of_items=request.data['items'])
-    div.add_parties([(i, request.data['mandates'][i]) for i in range(len(prefs))])
-    for i in range(len(prefs)):
-        div.set_party_preferences(i, prefs[i])
-    return Response(str(transpose(bundle_to_matrix(div.divide()))).replace("[","{").replace("]","}"))
 
 @api_view(['POST'])
 def ReturnSaveView(request):
-    if not isinstance(data,str):
+    try:
+        if not isinstance(request.data['date'],str):
+            return Response(-1)
+        data = database.child(request.data['date'].replace('.','/')).get().val()
+        if not isinstance(data,str):
+            return Response(-1)
+        return Response(database.child(request.data['date'].replace('.','/')).get().val())
+    except:
         return Response(-1)
-    data = database.child(request.data['date'].replace('.','/')).get().val()
-    return Response(database.child(request.data['date'].replace('.','/')).get().val())
