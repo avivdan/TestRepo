@@ -24,9 +24,9 @@ database=firebase.database()
 @api_view(['POST'])
 def AlgoResponseView(request):
     try:
-        if not isinstance(request.data, dict) or not isvalidinput(request.data) or not isinstance(request.data['date'],str):
+        if not isinstance(request.data, dict) or not isvalidinput(request.data) or not isinstance(request.data['key'],str):
             return Response(-1)
-        database.child(request.data['date'].replace('.','/')).set(str(request.data['preferences']))
+        database.child(request.data['key'].replace('.','/')).set(str(request.data['preferences']))
         prefs = request.data['preferences']
         div = Division(number_of_items=request.data['items'])
         div.add_parties([(i, request.data['mandates'][i]) for i in range(len(prefs))])
@@ -39,11 +39,11 @@ def AlgoResponseView(request):
 @api_view(['POST'])
 def ReturnSaveView(request):
     try:
-        if not isinstance(request.data['date'],str):
+        if not isinstance(request.data['key'],str):
             return Response(-1)
-        data = database.child(request.data['date'].replace('.','/')).get().val()
+        data = database.child(request.data['key'].replace('.','/')).get().val()
         if not isinstance(data,str):
             return Response(-1)
-        return Response(database.child(request.data['date'].replace('.','/')).get().val())
+        return Response(database.child(request.data['key'].replace('.','/')).get().val())
     except:
         return Response(-1)
