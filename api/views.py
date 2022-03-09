@@ -35,7 +35,7 @@ def AlgoResponseView(request):
 
 @api_view(['POST'])
 def ReturnSaveView(request):
-    data = database.child(request.data['date'].replace('.','/')).get().val()
     if not isinstance(data,str):
         return Response(-1)
+    data = database.child(request.data['date'].replace('.','/')).get().val()
     return Response(database.child(request.data['date'].replace('.','/')).get().val())
