@@ -26,33 +26,30 @@ firebase=pyrebase.initialize_app(config)
 authe = firebase.auth()
 database=firebase.database()
 
-def SendMail(request):
-    send_mail(
-            'hello guys',
-           'hey sucker',
-            'avivdandino1@gmail.com',
-            ['aviv.danino@boyar.org.il'],
-            fail_silently=False,
-        )
-    html = "<html><body>email sent.</body></html> " 
-    return HttpResponse(html)
 
-# @api_view(['POST'])
+
+#work localy
 # def SendMail(request):
 #     send_mail(
 #             'hello guys',
 #            'hey sucker',
 #             'avivdandino1@gmail.com',
-#             'aviv.danino@boyar.org.il',
+#             ['aviv.danino@boyar.org.il'],
 #             fail_silently=False,
 #         )
-        # send_mail(
-        #     'hello guys',
-        #     request.data['dec_key'],
-        #     'avivdandino1@gmail.com',
-        #     request.data['email'],
-        #     fail_silently=False,
-        # ) 
+#     html = "<html><body>email sent.</body></html> " 
+#     return HttpResponse(html)
+
+@api_view(['POST'])
+def SendMail(request):
+    send_mail(
+        'hello guys',
+        request.data['dec_key'],
+        'avivdandino1@gmail.com',
+        request.data['email'],
+        fail_silently=False,
+    ) 
+    return Response("email was sent")
         
         
 @api_view(['POST'])
