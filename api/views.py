@@ -1,10 +1,15 @@
+from asyncio.windows_events import NULL
 import pyrebase
+from django.http import HttpResponse
 import os
+from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .division import Division
 from .util import *
 from .inputcheck import isvalidinput
+from django.core.mail import send_mail
+    
 # Create your views here.
 
 config = {
@@ -21,6 +26,35 @@ firebase=pyrebase.initialize_app(config)
 authe = firebase.auth()
 database=firebase.database()
 
+def SendMail(request):
+    send_mail(
+            'hello guys',
+           'hey sucker',
+            'avivdandino1@gmail.com',
+            ['aviv.danino@boyar.org.il'],
+            fail_silently=False,
+        )
+    html = "<html><body>email sent.</body></html> " 
+    return HttpResponse(html)
+
+# @api_view(['POST'])
+# def SendMail(request):
+#     send_mail(
+#             'hello guys',
+#            'hey sucker',
+#             'avivdandino1@gmail.com',
+#             'aviv.danino@boyar.org.il',
+#             fail_silently=False,
+#         )
+        # send_mail(
+        #     'hello guys',
+        #     request.data['dec_key'],
+        #     'avivdandino1@gmail.com',
+        #     request.data['email'],
+        #     fail_silently=False,
+        # ) 
+        
+        
 @api_view(['POST'])
 def AlgoResponseView(request):
     try:
