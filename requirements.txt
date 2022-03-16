@@ -15,4 +15,4 @@ sqlparse==0.4.2
 static3==0.7.0
 tzdata==2021.5
 zipp==3.7.0
-git+git://github.com/erelsgl/fairpy.git
+git+https://github.com/erelsgl/fairpy.git
