@@ -10,7 +10,7 @@ cvxopt==1.2.7
 cvxpy-base==1.1.18
 cvxpy-leximin==0.4.3
 cycler==0.11.0
-dicttools @ git+git://github.com/trzemecki/dicttools.git
+dicttools @ git+https://github.com/trzemecki/dicttools.git
 dj-database-url==0.5.0
 Django==4.0.3
 django-filter==21.1
